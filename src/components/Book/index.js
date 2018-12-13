@@ -6,17 +6,18 @@ import PropTypes from "prop-types";
 */
 class Book extends Component {
   static propTypes = {
+    book: PropTypes.object.isRequired,
     onShelfChange: PropTypes.func.isRequired
   };
 
   // Callback to parent to tell it that the book is going to be changed to another shelf
   changeShelf = e => {
-    console.log(e);
     this.props.onShelfChange(e.target.value);
   };
 
   render() {
-    const { book, shelf } = this.props;
+    const { book } = this.props;
+    const shelf = book.shelf;
 
     return (
       <div className="book">
