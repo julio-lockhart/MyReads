@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 // Components
 import UserShelf from "../UserShelf";
+import SearchBooks from "../SearchBooks";
 
 // API
 import * as BooksAPI from "../../API/BooksAPI";
@@ -24,7 +25,6 @@ class BooksApp extends Component {
   loadBooks = () => {
     BooksAPI.getAll()
       .then(books => {
-        console.log(books);
         this.setState(() => ({
           books
         }));
@@ -48,11 +48,20 @@ class BooksApp extends Component {
       <Router>
         <div className="app">
           <Route
+            path="/search"
+            render={({ history }) => (
+              <SearchBooks changeShelf={this.changeShelf} />
+            )}
+          />
+          <Route
             exact
             path="/"
             render={() => (
               <div>
                 <UserShelf books={books} onShelfChange={this.changeShelf} />
+                <div className="open-search">
+                  <Link to="/search">Search</Link>
+                </div>
               </div>
             )}
           />

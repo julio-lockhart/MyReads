@@ -52,13 +52,17 @@ class BookShelf extends Component {
   }
 }
 
-const EmptyDisplay = title => {
+/*
+Based on the title of the book shelf, a different message will be displayed if
+the shelf is empty
+*/
+const EmptyDisplay = ({ title }) => {
   if (title === Titles.TITLE_CURRENTLY_READING) {
-    return <h1>Start reading a book</h1>;
+    return <h3>Start reading a book</h3>;
   } else if (title === Titles.TITLE_WANT_TO_READ) {
-    return <h1>How about searching for a book to read?</h1>;
+    return <h3>How about searching for a book to read?</h3>;
   } else if (title === Titles.TITLE_READ) {
-    return <h1>You haven't read any books!</h1>;
+    return <h3>You haven't read any books!</h3>;
   } else {
     return <div>Empty</div>;
   }
