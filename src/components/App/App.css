@@ -8,14 +8,39 @@ body {
 }
 body,
 .app {
-  background: white;
+  background: #fafafa;
+}
+
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 768px) {
+  .container {
+    width: 750px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    width: 970px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    width: 1170px;
+  }
 }
 
 /* main page */
 
 .list-books-title {
   padding: 10px 0;
-  background: #2e7c31;
+  background: #03a9f4;
   text-align: center;
 }
 .list-books-title h1 {
@@ -56,7 +81,7 @@ body,
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background: #2e7d32;
+  background: #03a9f4;
   background-image: url("../../icons/add.svg");
   background-repeat: no-repeat;
   background-position: center;
@@ -125,6 +150,11 @@ body,
 .book {
   width: 140px;
 }
+
+.book-title {
+  font-weight: 600;
+}
+
 .book-title,
 .book-authors {
   font-size: 0.8em;
@@ -150,7 +180,7 @@ body,
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #60ac5d;
+  background: #039be5;
   background-image: url("../../icons/arrow-drop-down.svg");
   background-repeat: no-repeat;
   background-position: center;

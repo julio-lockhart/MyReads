@@ -51,25 +51,27 @@ class BooksApp extends Component {
 
     return (
       <Router>
-        <div className="app">
-          <Route
-            path="/search"
-            render={({ history }) => (
-              <SearchBooks allBooks={books} changeShelf={this.changeShelf} />
-            )}
-          />
-          <Route
-            exact
-            path="/"
-            render={() => (
-              <div>
-                <UserShelf books={books} onShelfChange={this.changeShelf} />
-                <div className="open-search">
-                  <Link to="/search">Search</Link>
+        <div className="container">
+          <div className="app">
+            <Route
+              path="/search"
+              render={({ history }) => (
+                <SearchBooks allBooks={books} changeShelf={this.changeShelf} />
+              )}
+            />
+            <Route
+              exact
+              path="/"
+              render={() => (
+                <div>
+                  <UserShelf books={books} onShelfChange={this.changeShelf} />
+                  <div className="open-search">
+                    <Link to="/search">Search</Link>
+                  </div>
                 </div>
-              </div>
-            )}
-          />
+              )}
+            />
+          </div>
         </div>
       </Router>
     );
