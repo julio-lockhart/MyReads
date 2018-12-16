@@ -55,7 +55,7 @@ class BooksApp extends Component {
           <Route
             path="/search"
             render={({ history }) => (
-              <SearchBooks changeShelf={this.changeShelf} />
+              <SearchBooks allBooks={books} changeShelf={this.changeShelf} />
             )}
           />
           <Route

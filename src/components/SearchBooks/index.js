@@ -9,6 +9,9 @@ import ErrorPage from "../ErrorPage";
 // API
 import * as BooksAPI from "../../API/BooksAPI";
 
+// Utilities
+import * as Titles from "../../Utilities/constants";
+
 class SearchBooks extends Component {
   static propTypes = {
     changeShelf: PropTypes.func.isRequired
@@ -29,10 +32,12 @@ class SearchBooks extends Component {
       BooksAPI.search(query)
         .then(books => {
           if (books.length > 0) {
-            const filteredBooks = books
-              .filter(book => book.authors)
-              .filter(book => book.imageLinks);
+            // Get the books that actually contain Images and Author(s)
+            let filteredBooks = books
+              .filter(book => book.imageLinks)
+              .filter(book => book.authors);
 
+            filteredBooks = this.applyShelfToBooks(filteredBooks);
             this.setState({ searchedBooks: filteredBooks });
           }
         })
@@ -44,19 +49,48 @@ class SearchBooks extends Component {
     }
   };
 
+  applyShelfToBooks = books => {
+    const { allBooks } = this.props;
+
+    // Set shelf to 'none' first
+    for (let searchedBook of books) {
+      searchedBook.shelf = "None";
+    }
+
+    // Now update the shelf value with the value from the user's book shelf
+    for (let searchedBook of books) {
+      for (let book of allBooks) {
+        if (searchedBook.id === book.id) {
+          searchedBook.shelf = book.shelf;
+        }
+      }
+    }
+
+    return books;
+  };
+
   updateBookShelf = (book, shelf) => {
     this.props.changeShelf(book, shelf);
 
     switch (shelf) {
       case "wantToRead":
         alert(`"${book.title}" was moved to the shelf: "Want to Read"`);
+        book.shelf = Titles.TITLE_WANT_TO_READ;
         break;
       case "currentlyReading":
         alert(`"${book.title}" was moved to the shelf: "Currently Reading"`);
+        book.shelf = Titles.TITLE_CURRENTLY_READING;
         break;
       default:
         alert(`"${book.title}" was moved to the shelf: "Read"`);
+        book.shelf = Titles.TITLE_READ;
     }
+
+    // Update the shelf within the searched books
+    const index = this.state.searchedBooks.findIndex(b => b.id === book.id);
+    const _searchedBooks = [...this.state.searchedBooks];
+    _searchedBooks[index].shelf = book.shelf;
+    this.setState({ searchedBooks: _searchedBooks });
   };
 
   render() {
