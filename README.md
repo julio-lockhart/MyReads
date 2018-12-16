@@ -2,6 +2,10 @@
 
 As part of Udacity's React program, we were tasked to create a bookshelf app called "MyReads". The bookshelf "allows you to select and categorize books you have read, are currently reading, or want to read. The project emphasizes using React to build the application and provides an API server and client library that you will use to persist information as you interact with the application."
 
+## Live
+
+You can view the project live [in Heroku](https://lockhart-myreads.herokuapp.com)
+
 ## Backend Server
 
 A backend server was given to us that provided the following operations (file can found in: [`BooksAPI.js`](src/API/BooksAPI.js)):
