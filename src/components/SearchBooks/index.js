@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 // Components
 import Book from "../Book";
+import ErrorPage from "../ErrorPage";
 
 // API
 import * as BooksAPI from "../../API/BooksAPI";
@@ -15,7 +16,9 @@ class SearchBooks extends Component {
 
   state = {
     searchedBooks: [],
-    query: ""
+    query: "",
+    showError: false,
+    errorMessage: ""
   };
 
   searchBooks = e => {
@@ -23,13 +26,21 @@ class SearchBooks extends Component {
     this.setState({ query });
 
     if (query) {
-      BooksAPI.search(query).then(books => {
-        if (books.length > 0) {
-          this.setState({ searchedBooks: books });
-        } else {
-          //this.setState({ searchedBooks: [], query: "" });
-        }
-      });
+      BooksAPI.search(query)
+        .then(books => {
+          if (books.length > 0) {
+            const filteredBooks = books
+              .filter(book => book.authors)
+              .filter(book => book.imageLinks);
+
+            this.setState({ searchedBooks: filteredBooks });
+          }
+        })
+        .catch(error => {
+          this.setState({ showError: true, errorMessage: error });
+        });
+    } else {
+      this.setState({ searchedBooks: [], query: "" }); // Empty query
     }
   };
 
@@ -49,10 +60,11 @@ class SearchBooks extends Component {
   };
 
   render() {
-    const { query, searchedBooks } = this.state;
+    const { query, searchedBooks, showError, errorMessage } = this.state;
 
-    const show = searchedBooks && searchedBooks.length > 0;
-    console.log(show);
+    if (showError) {
+      return <ErrorPage errorMessage={errorMessage} />;
+    }
 
     return (
       <div className="search-books">

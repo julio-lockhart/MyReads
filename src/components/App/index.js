@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 // Components
 import UserShelf from "../UserShelf";
 import SearchBooks from "../SearchBooks";
+import ErrorPage from "../ErrorPage";
 
 // API
 import * as BooksAPI from "../../API/BooksAPI";
@@ -14,7 +15,8 @@ import "./App.css";
 class BooksApp extends Component {
   state = {
     books: [],
-    showSearchPage: false
+    showError: false,
+    errorMessage: ""
   };
 
   componentDidMount() {
@@ -30,19 +32,22 @@ class BooksApp extends Component {
         }));
       })
       .catch(error => {
-        console.log("Error: " + error);
+        this.setState({ showError: true, errorMessage: error });
       });
   };
 
   changeShelf = (book, shelf) => {
-    console.log("Updating Shelf:", shelf, book);
     BooksAPI.update(book, shelf).then(() => {
       this.loadBooks();
     });
   };
 
   render() {
-    const { books } = this.state;
+    const { books, showError, errorMessage } = this.state;
+
+    if (showError) {
+      return <ErrorPage errorMessage={errorMessage} />;
+    }
 
     return (
       <Router>
