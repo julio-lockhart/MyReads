@@ -39,6 +39,9 @@ class SearchBooks extends Component {
 
             filteredBooks = this.applyShelfToBooks(filteredBooks);
             this.setState({ searchedBooks: filteredBooks });
+          } else {
+            // Clear previous search results if query does not return anything
+            this.setState({ searchedBooks: [] });
           }
         })
         .catch(error => {
@@ -54,7 +57,7 @@ class SearchBooks extends Component {
 
     // Set shelf to 'none' first
     for (let searchedBook of books) {
-      searchedBook.shelf = "None";
+      searchedBook.shelf = "none";
     }
 
     // Now update the shelf value with the value from the user's book shelf
